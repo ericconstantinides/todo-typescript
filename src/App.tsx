@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import TodoItem, { TodoProps } from './TodoItem'
+import AddTodo from './AddTodo'
+import './styles.css'
 
-function App() {
+const defaultTodos: TodoProps[] = [
+  {
+    title: 'mow the lawn',
+    isCompleted: false
+  },
+  {
+    title: 'read the newspaper',
+    isCompleted: false
+  },
+  {
+    title: 'eat pizza for breakfast',
+    isCompleted: true
+  },
+]
+
+export default function App() {
+  const [todos, setTodos] = useState(defaultTodos)
+  const handleAddTodo = (newTitle: string) => {
+    setTodos([...todos, {
+      title: newTitle,
+      isCompleted: false
+    }])
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Todo</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>title</th>
+            <th>complete</th>
+          </tr>
+        </thead>
+        <tbody>
+          {todos.map((todoItem, i) => {
+            return <TodoItem key={i} {...todoItem} />
+          })}
+        </tbody>
+      </table>
+      <AddTodo {...{handleAddTodo}} />
     </div>
-  );
+  )
 }
-
-export default App;
